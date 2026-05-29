@@ -10,21 +10,16 @@ namespace Modev.HarmonyPatches;
 public static class Postfix_ModMetaData_GetWorkshopUploadDirectory {
     [UsedImplicitly]
     public static void Postfix(ref DirectoryInfo __result) {
-        try {
-            var settings = ModevMod.Settings;
+        var settings = ModevMod.Settings;
+        var excludedFolders = settings.GetExcludedFolders();
+        var excludedFiles = settings.GetExcludedFiles();
+        var ignoreDotPrefixedPaths = settings.IgnoreDotPrefixedPaths;
 
-            var excludedFolders = settings.GetExcludedFolders();
-            var excludedFiles = settings.GetExcludedFiles();
-            var ignoreDotPrefixedPaths = settings.IgnoreDotPrefixedPaths;
-            if ((excludedFolders.Count == 0
-                 && excludedFiles.Count == 0
-                 && !ignoreDotPrefixedPaths)
-                || __result is not { Exists: true }) return;
+        if (excludedFolders.Count == 0
+            && excludedFiles.Count == 0
+            && !ignoreDotPrefixedPaths) return;
 
-            __result = UploadContentFilter.BuildFilteredCopy(__result, excludedFolders,
-                excludedFiles, ignoreDotPrefixedPaths);
-        } catch (Exception ex) {
-            Log.Error($"Modev: Failed to build filtered workshop upload directory: {ex}");
-        }
+        __result = UploadContentFilter.BuildFilteredCopy(__result, excludedFolders,
+            excludedFiles, ignoreDotPrefixedPaths);
     }
 }

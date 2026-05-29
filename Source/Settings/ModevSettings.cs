@@ -45,10 +45,6 @@ public sealed class ModevSettings : ModSettings {
 
     public void RemoveExcludedRuleAt(int sortedIndex) {
         CanonicalizeRulesInPlace(_excludedRules);
-        if (sortedIndex < 0 || sortedIndex >= _excludedRules.Count) {
-            return;
-        }
-
         _excludedRules.RemoveAt(sortedIndex);
     }
 
