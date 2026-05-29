@@ -17,7 +17,35 @@ public static class UploadContentFilter {
         IReadOnlyCollection<string> excludedFolders,
         IReadOnlyCollection<string> excludedFiles, bool ignoreDotPrefixedPaths) {
         var paths = new List<string>();
-        CollectIncludedTopLevelPaths(source.FullName, excludedFolders, excludedFiles, ignoreDotPrefixedPaths, paths);
+
+        foreach (var directoryPath in Directory.GetDirectories(source.FullName)
+                     .OrderBy(Path.GetFileName, StringComparer.OrdinalIgnoreCase)) {
+            var folderName = Path.GetFileName(directoryPath);
+            if (ignoreDotPrefixedPaths && folderName.StartsWith(".", StringComparison.Ordinal)) {
+                continue;
+            }
+
+            if (IsFolderExcluded(folderName, excludedFolders)) {
+                continue;
+            }
+
+            paths.Add(folderName + "/");
+        }
+
+        foreach (var filePath in Directory.GetFiles(source.FullName)
+                     .OrderBy(Path.GetFileName, StringComparer.OrdinalIgnoreCase)) {
+            var fileName = Path.GetFileName(filePath);
+            if (ignoreDotPrefixedPaths && fileName.StartsWith(".", StringComparison.Ordinal)) {
+                continue;
+            }
+
+            if (IsFileExcluded(fileName, excludedFiles)) {
+                continue;
+            }
+
+            paths.Add(fileName);
+        }
+
         return paths;
     }
 
@@ -82,38 +110,6 @@ public static class UploadContentFilter {
             var targetChild = Path.Combine(targetPath, folderName);
             CopyDirectory(directoryPath, targetChild, childRelativePath, excludedFolders, excludedFiles,
                 ignoreDotPrefixedPaths);
-        }
-    }
-
-    private static void CollectIncludedTopLevelPaths(string sourcePath,
-        IReadOnlyCollection<string> excludedFolders, IReadOnlyCollection<string> excludedFiles,
-        bool ignoreDotPrefixedPaths, ICollection<string> paths) {
-        foreach (var directoryPath in Directory.GetDirectories(sourcePath)
-                     .OrderBy(Path.GetFileName, StringComparer.OrdinalIgnoreCase)) {
-            var folderName = Path.GetFileName(directoryPath);
-            if (ignoreDotPrefixedPaths && folderName.StartsWith(".", StringComparison.Ordinal)) {
-                continue;
-            }
-
-            if (IsFolderExcluded(folderName, excludedFolders)) {
-                continue;
-            }
-
-            paths.Add(folderName + "/");
-        }
-
-        foreach (var filePath in Directory.GetFiles(sourcePath)
-                     .OrderBy(Path.GetFileName, StringComparer.OrdinalIgnoreCase)) {
-            var fileName = Path.GetFileName(filePath);
-            if (ignoreDotPrefixedPaths && fileName.StartsWith(".", StringComparison.Ordinal)) {
-                continue;
-            }
-
-            if (IsFileExcluded(fileName, excludedFiles)) {
-                continue;
-            }
-
-            paths.Add(fileName);
         }
     }
 

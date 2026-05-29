@@ -13,20 +13,11 @@ public sealed class ModevSettings : ModSettings {
         CanonicalizeRulesInPlace(_excludedRules);
     }
 
-    public List<string> GetExcludedFolders() {
-        CanonicalizeRulesInPlace(_excludedRules);
-        return [.._excludedRules.Where(IsFolderRule).Select(ToFolderPath)];
-    }
+    public List<string> GetExcludedFolders() => [.._excludedRules.Where(IsFolderRule).Select(s => s[..^1])];
 
-    public List<string> GetExcludedFiles() {
-        CanonicalizeRulesInPlace(_excludedRules);
-        return [.._excludedRules.Where(rule => !IsFolderRule(rule))];
-    }
+    public List<string> GetExcludedFiles() => [.._excludedRules.Where(rule => !IsFolderRule(rule))];
 
-    public List<string> GetExcludedRules() {
-        CanonicalizeRulesInPlace(_excludedRules);
-        return [.._excludedRules];
-    }
+    public List<string> GetExcludedRules() => [.._excludedRules];
 
     public bool TryAddExcludedRule(string rawInput) {
         var normalizedRule = NormalizeRule(rawInput);
@@ -52,10 +43,6 @@ public sealed class ModevSettings : ModSettings {
         return rule.EndsWith("/", StringComparison.Ordinal);
     }
 
-    private static string ToFolderPath(string folderRule) {
-        return folderRule[..^1];
-    }
-
     private static void CanonicalizeRulesInPlace(List<string> rules) {
         var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         for (var i = rules.Count - 1; i >= 0; i--) {
@@ -71,9 +58,10 @@ public sealed class ModevSettings : ModSettings {
         rules.Sort(CompareRules);
     }
 
-    private static int CompareRules(string? a, string? b) {
-        var aFolder = a != null && IsFolderRule(a);
-        var bFolder = b != null && IsFolderRule(b);
+    private static int CompareRules(string a, string b) {
+        var aFolder = IsFolderRule(a);
+        var bFolder = IsFolderRule(b);
+
         if (aFolder != bFolder) {
             return aFolder ? -1 : 1;
         }
