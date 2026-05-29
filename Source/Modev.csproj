@@ -30,6 +30,7 @@
 
     <ItemGroup>
       <None Remove="Modev.sln.DotSettings" />
+      <None Remove="Modev.csproj.DotSettings" />
     </ItemGroup>
 
 </Project>
