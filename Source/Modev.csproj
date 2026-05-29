@@ -9,13 +9,13 @@
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-      <OutputPath>../../Assemblies</OutputPath>
+      <OutputPath>../Assemblies</OutputPath>
       <DebugSymbols>false</DebugSymbols>
       <DebugType>none</DebugType>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-      <OutputPath>../../Assemblies</OutputPath>
+      <OutputPath>../Assemblies</OutputPath>
       <DebugType>none</DebugType>
     </PropertyGroup>
 
