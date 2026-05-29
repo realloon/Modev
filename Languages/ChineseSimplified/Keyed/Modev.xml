@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <Modev_ExcludeRules_Label>添加忽略项，以 / 结尾的视为文件夹</Modev_ExcludeRules_Label>
+  <Modev_ExcludeRules_AddButton>添加</Modev_ExcludeRules_AddButton>
+  <Modev_SkipDelay_Toggle>跳过原创性确认等待</Modev_SkipDelay_Toggle>
+  <Modev_IgnoreDotPrefixedPaths_Toggle>忽略所有以 . 开头的文件和文件夹</Modev_IgnoreDotPrefixedPaths_Toggle>
+  <Modev_ExcludeRules_ListLabel>已忽略项</Modev_ExcludeRules_ListLabel>
+  <Modev_ExcludeRules_RemoveButton>移除</Modev_ExcludeRules_RemoveButton>
+  <Modev_ExcludeRules_Empty>尚未添加任何忽略项。</Modev_ExcludeRules_Empty>
+  <Modev_UploadPreview_Title>将上传至创意工坊的内容</Modev_UploadPreview_Title>
+  <Modev_UploadPreview_Empty>过滤后没有任何内容会被上传。</Modev_UploadPreview_Empty>
+</LanguageData>
