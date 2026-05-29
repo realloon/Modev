@@ -2,7 +2,7 @@
 <ModMetaData>
   <packageId>Vortex.Modev</packageId>
   <name>Modev</name>
-  <description>Modev.</description>
+  <description>Modev is a toolkit designed for RimWorld mod development.</description>
   <author>Vortex</author>
   <modVersion>1.2.0</modVersion>
   <supportedVersions>
