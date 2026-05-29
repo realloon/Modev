@@ -50,9 +50,7 @@ public sealed class Dialog_UploadPreview : Dialog_MessageBox {
     }
 
     public override void OnAcceptKeyPressed() {
-        if (!InteractionDelayExpired) {
-            return;
-        }
+        if (!InteractionDelayExpired) return;
 
         base.OnAcceptKeyPressed();
     }

@@ -9,6 +9,7 @@ public sealed class ModevSettings : ModSettings {
         Scribe_Collections.Look(ref _excludedRules, "excludedRules", LookMode.Value);
         Scribe_Values.Look(ref SkipWorkshopConfirmDelay, "skipWorkshopConfirmDelay", true);
         Scribe_Values.Look(ref IgnoreDotPrefixedPaths, "ignoreDotPrefixedPaths");
+
         _excludedRules ??= [];
         CanonicalizeRulesInPlace(_excludedRules);
     }
@@ -18,6 +19,8 @@ public sealed class ModevSettings : ModSettings {
     public List<string> GetExcludedFiles() => [.._excludedRules.Where(rule => !IsFolderRule(rule))];
 
     public List<string> GetExcludedRules() => [.._excludedRules];
+
+    private static bool IsFolderRule(string rule) => rule.EndsWith("/", StringComparison.Ordinal);
 
     public bool TryAddExcludedRule(string rawInput) {
         var normalizedRule = NormalizeRule(rawInput);
@@ -39,12 +42,9 @@ public sealed class ModevSettings : ModSettings {
         _excludedRules.RemoveAt(sortedIndex);
     }
 
-    private static bool IsFolderRule(string rule) {
-        return rule.EndsWith("/", StringComparison.Ordinal);
-    }
-
     private static void CanonicalizeRulesInPlace(List<string> rules) {
         var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
         for (var i = rules.Count - 1; i >= 0; i--) {
             var normalized = NormalizeRule(rules[i]);
             if (normalized is not { Length: > 0 } || !seen.Add(normalized)) {
@@ -72,6 +72,7 @@ public sealed class ModevSettings : ModSettings {
     private static string? NormalizeRule(string value) {
         var isFolderRule = value.TrimEnd().EndsWith("/", StringComparison.Ordinal);
         var path = value.Trim().Replace('\\', '/');
+
         while (path.StartsWith("/", StringComparison.Ordinal)) {
             path = path[1..];
         }

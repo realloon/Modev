@@ -50,24 +50,8 @@ public static class UploadContentFilter {
     }
 
     private static void CleanupAllPreviousDirectories(string rootPath) {
-        DirectoryInfo[] dirs;
-        try {
-            dirs = new DirectoryInfo(rootPath).GetDirectories();
-        } catch (Exception ex) {
-            Log.Warning($"Modev: Failed to enumerate temp upload directories: {ex.Message}");
-            return;
-        }
-
-        foreach (var dir in dirs) {
-            TryDeleteDirectory(dir);
-        }
-    }
-
-    private static void TryDeleteDirectory(DirectoryInfo dir) {
-        try {
+        foreach (var dir in new DirectoryInfo(rootPath).GetDirectories()) {
             dir.Delete(true);
-        } catch (Exception ex) {
-            Log.Warning($"Modev: Failed to delete temp upload directory '{dir.FullName}': {ex.Message}");
         }
     }
 
