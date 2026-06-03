@@ -40,6 +40,7 @@ public sealed class Dialog_UploadPreview : Dialog_MessageBox {
         var bodyStyle = CreateBodyStyle();
         var contentHeight = bodyStyle.CalcHeight(new GUIContent(_contentText), bodyWidth);
         var viewRect = new Rect(0f, 0f, bodyWidth, contentHeight);
+
         Widgets.BeginScrollView(bodyRect, ref _scrollPosition, viewRect);
         GUI.Label(new Rect(0f, 0f, viewRect.width, viewRect.height), _contentText, bodyStyle);
         Widgets.EndScrollView();
@@ -82,6 +83,7 @@ public sealed class Dialog_UploadPreview : Dialog_MessageBox {
         }
 
         GUI.color = Color.white;
+
         if (Widgets.ButtonText(new Rect(0f, inRect.height - 35f, actualButtonWidth, 35f), buttonBText)) {
             buttonBAction?.Invoke();
             Close();
