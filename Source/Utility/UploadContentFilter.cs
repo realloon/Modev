@@ -1,21 +1,19 @@
 namespace Modev.Utility;
 
 public static class UploadContentFilter {
-    public static DirectoryInfo BuildFilteredCopy(DirectoryInfo source, IReadOnlyCollection<string> excludedFolders,
-        IReadOnlyCollection<string> excludedFiles, bool ignoreDotPrefixedPaths) {
+    public static DirectoryInfo BuildFilteredCopy(DirectoryInfo source, IReadOnlyCollection<string> excludedRules,
+        bool ignoreDotPrefixedPaths) {
         var root = Path.Combine(GenFilePaths.TempFolderPath, "Vortex_Modev");
         Directory.CreateDirectory(root);
         CleanupAllPreviousDirectories(root);
 
         var targetPath = Path.Combine(root, source.Name + "_" + DateTime.UtcNow.ToString("yyyyMMddHHmmssfff"));
-        CopyDirectory(source.FullName, targetPath, string.Empty, excludedFolders, excludedFiles,
-            ignoreDotPrefixedPaths);
+        CopyDirectory(source.FullName, targetPath, string.Empty, excludedRules, ignoreDotPrefixedPaths);
         return new DirectoryInfo(targetPath);
     }
 
     public static List<string> ListIncludedTopLevelPaths(DirectoryInfo source,
-        IReadOnlyCollection<string> excludedFolders,
-        IReadOnlyCollection<string> excludedFiles, bool ignoreDotPrefixedPaths) {
+        IReadOnlyCollection<string> excludedRules, bool ignoreDotPrefixedPaths) {
         var paths = new List<string>();
 
         foreach (var directoryPath in Directory.GetDirectories(source.FullName)
@@ -25,7 +23,7 @@ public static class UploadContentFilter {
                 continue;
             }
 
-            if (IsFolderExcluded(folderName, excludedFolders)) {
+            if (IsExcluded(folderName, true, excludedRules)) {
                 continue;
             }
 
@@ -39,7 +37,7 @@ public static class UploadContentFilter {
                 continue;
             }
 
-            if (IsFileExcluded(fileName, excludedFiles)) {
+            if (IsExcluded(fileName, false, excludedRules)) {
                 continue;
             }
 
@@ -56,8 +54,7 @@ public static class UploadContentFilter {
     }
 
     private static void CopyDirectory(string sourcePath, string targetPath, string relativePath,
-        IReadOnlyCollection<string> excludedFolders, IReadOnlyCollection<string> excludedFiles,
-        bool ignoreDotPrefixedPaths) {
+        IReadOnlyCollection<string> excludedRules, bool ignoreDotPrefixedPaths) {
         Directory.CreateDirectory(targetPath);
 
         foreach (var filePath in Directory.GetFiles(sourcePath)) {
@@ -69,7 +66,7 @@ public static class UploadContentFilter {
             var relativeFilePath = string.IsNullOrEmpty(relativePath)
                 ? fileName
                 : relativePath + "/" + fileName;
-            if (IsFileExcluded(relativeFilePath, excludedFiles)) {
+            if (IsExcluded(relativeFilePath, false, excludedRules)) {
                 continue;
             }
 
@@ -87,25 +84,27 @@ public static class UploadContentFilter {
                 ? folderName
                 : relativePath + "/" + folderName;
 
-            if (IsFolderExcluded(childRelativePath, excludedFolders)) {
+            if (IsExcluded(childRelativePath, true, excludedRules)) {
                 continue;
             }
 
             var targetChild = Path.Combine(targetPath, folderName);
-            CopyDirectory(directoryPath, targetChild, childRelativePath, excludedFolders, excludedFiles,
-                ignoreDotPrefixedPaths);
+            CopyDirectory(directoryPath, targetChild, childRelativePath, excludedRules, ignoreDotPrefixedPaths);
         }
     }
 
-    private static bool IsFolderExcluded(string relativeFolderPath, IReadOnlyCollection<string> excludedFolders) {
-        var candidate = relativeFolderPath.Replace('\\', '/');
-        return excludedFolders.Any(excludedFolder =>
-            candidate.Equals(excludedFolder, StringComparison.OrdinalIgnoreCase) ||
-            candidate.StartsWith(excludedFolder + "/", StringComparison.OrdinalIgnoreCase));
+    private static bool IsExcluded(string relativePath, bool isFolder, IReadOnlyCollection<string> excludedRules) {
+        var candidate = relativePath.Replace('\\', '/');
+        return excludedRules.Any(rule => IsRuleMatch(candidate, isFolder, rule));
     }
 
-    private static bool IsFileExcluded(string relativeFilePath, IReadOnlyCollection<string> excludedFiles) {
-        var candidate = relativeFilePath.Replace('\\', '/');
-        return excludedFiles.Any(excludedFile => candidate.Equals(excludedFile, StringComparison.OrdinalIgnoreCase));
+    private static bool IsRuleMatch(string candidate, bool isFolder, string rule) {
+        if (!rule.EndsWith("/", StringComparison.Ordinal)) {
+            return !isFolder && candidate.Equals(rule, StringComparison.OrdinalIgnoreCase);
+        }
+
+        var folder = rule[..^1];
+        return candidate.Equals(folder, StringComparison.OrdinalIgnoreCase) ||
+               candidate.StartsWith(folder + "/", StringComparison.OrdinalIgnoreCase);
     }
 }

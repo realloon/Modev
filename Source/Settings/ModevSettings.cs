@@ -14,10 +14,6 @@ public sealed class ModevSettings : ModSettings {
         CanonicalizeRulesInPlace(_excludedRules);
     }
 
-    public List<string> GetExcludedFolders() => [.._excludedRules.Where(IsFolderRule).Select(s => s[..^1])];
-
-    public List<string> GetExcludedFiles() => [.._excludedRules.Where(rule => !IsFolderRule(rule))];
-
     public List<string> GetExcludedRules() => [.._excludedRules];
 
     private static bool IsFolderRule(string rule) => rule.EndsWith("/", StringComparison.Ordinal);
