@@ -34,7 +34,6 @@ public sealed class ModevSettings : ModSettings {
     }
 
     public void RemoveExcludedRuleAt(int sortedIndex) {
-        CanonicalizeRulesInPlace(_excludedRules);
         _excludedRules.RemoveAt(sortedIndex);
     }
 
@@ -67,15 +66,7 @@ public sealed class ModevSettings : ModSettings {
 
     private static string? NormalizeRule(string value) {
         var isFolderRule = value.TrimEnd().EndsWith("/", StringComparison.Ordinal);
-        var path = value.Trim().Replace('\\', '/');
-
-        while (path.StartsWith("/", StringComparison.Ordinal)) {
-            path = path[1..];
-        }
-
-        while (path.EndsWith("/", StringComparison.Ordinal)) {
-            path = path[..^1];
-        }
+        var path = value.Trim().Replace('\\', '/').Trim('/');
 
         if (path.Length == 0) return null;
 

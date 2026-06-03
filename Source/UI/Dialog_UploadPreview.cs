@@ -65,8 +65,7 @@ public sealed class Dialog_UploadPreview : Dialog_MessageBox {
     }
 
     private void DrawButtons(Rect inRect) {
-        const int buttonCount = 2;
-        var buttonWidth = inRect.width / buttonCount;
+        var buttonWidth = inRect.width / 2f;
         var actualButtonWidth = buttonWidth - 10f;
 
         GUI.color = new Color(1f, 0.3f, 0.35f);
@@ -76,7 +75,7 @@ public sealed class Dialog_UploadPreview : Dialog_MessageBox {
             : buttonAText + "(" + Mathf.Ceil(TimeUntilInteractive).ToString("F0") + ")";
 
         if (Widgets.ButtonText(
-                new Rect(buttonWidth * (buttonCount - 1) + 10f, inRect.height - 35f, actualButtonWidth, 35f),
+                new Rect(buttonWidth + 10f, inRect.height - 35f, actualButtonWidth, 35f),
                 primaryLabel) && InteractionDelayExpired) {
             buttonAAction?.Invoke();
             Close();
@@ -85,7 +84,6 @@ public sealed class Dialog_UploadPreview : Dialog_MessageBox {
         GUI.color = Color.white;
 
         if (Widgets.ButtonText(new Rect(0f, inRect.height - 35f, actualButtonWidth, 35f), buttonBText)) {
-            buttonBAction?.Invoke();
             Close();
         }
     }
