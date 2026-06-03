@@ -19,11 +19,7 @@ public static class UploadContentFilter {
         foreach (var directoryPath in Directory.GetDirectories(source.FullName)
                      .OrderBy(Path.GetFileName, StringComparer.OrdinalIgnoreCase)) {
             var folderName = Path.GetFileName(directoryPath);
-            if (ignoreDotPrefixedPaths && folderName.StartsWith(".", StringComparison.Ordinal)) {
-                continue;
-            }
-
-            if (IsExcluded(folderName, true, excludedRules)) {
+            if (ShouldSkip(folderName, folderName, true, excludedRules, ignoreDotPrefixedPaths)) {
                 continue;
             }
 
@@ -33,11 +29,7 @@ public static class UploadContentFilter {
         foreach (var filePath in Directory.GetFiles(source.FullName)
                      .OrderBy(Path.GetFileName, StringComparer.OrdinalIgnoreCase)) {
             var fileName = Path.GetFileName(filePath);
-            if (ignoreDotPrefixedPaths && fileName.StartsWith(".", StringComparison.Ordinal)) {
-                continue;
-            }
-
-            if (IsExcluded(fileName, false, excludedRules)) {
+            if (ShouldSkip(fileName, fileName, false, excludedRules, ignoreDotPrefixedPaths)) {
                 continue;
             }
 
@@ -59,14 +51,10 @@ public static class UploadContentFilter {
 
         foreach (var filePath in Directory.GetFiles(sourcePath)) {
             var fileName = Path.GetFileName(filePath);
-            if (ignoreDotPrefixedPaths && fileName.StartsWith(".", StringComparison.Ordinal)) {
-                continue;
-            }
-
             var relativeFilePath = string.IsNullOrEmpty(relativePath)
                 ? fileName
                 : relativePath + "/" + fileName;
-            if (IsExcluded(relativeFilePath, false, excludedRules)) {
+            if (ShouldSkip(fileName, relativeFilePath, false, excludedRules, ignoreDotPrefixedPaths)) {
                 continue;
             }
 
@@ -76,21 +64,23 @@ public static class UploadContentFilter {
 
         foreach (var directoryPath in Directory.GetDirectories(sourcePath)) {
             var folderName = Path.GetFileName(directoryPath);
-            if (ignoreDotPrefixedPaths && folderName.StartsWith(".", StringComparison.Ordinal)) {
-                continue;
-            }
-
             var childRelativePath = string.IsNullOrEmpty(relativePath)
                 ? folderName
                 : relativePath + "/" + folderName;
 
-            if (IsExcluded(childRelativePath, true, excludedRules)) {
+            if (ShouldSkip(folderName, childRelativePath, true, excludedRules, ignoreDotPrefixedPaths)) {
                 continue;
             }
 
             var targetChild = Path.Combine(targetPath, folderName);
             CopyDirectory(directoryPath, targetChild, childRelativePath, excludedRules, ignoreDotPrefixedPaths);
         }
+    }
+
+    private static bool ShouldSkip(string name, string relativePath, bool isFolder,
+        IReadOnlyCollection<string> excludedRules, bool ignoreDotPrefixedPaths) {
+        return (ignoreDotPrefixedPaths && name.StartsWith(".", StringComparison.Ordinal)) ||
+               IsExcluded(relativePath, isFolder, excludedRules);
     }
 
     private static bool IsExcluded(string relativePath, bool isFolder, IReadOnlyCollection<string> excludedRules) {
