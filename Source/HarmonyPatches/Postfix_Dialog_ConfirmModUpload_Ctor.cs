@@ -27,17 +27,14 @@ public static class Postfix_Dialog_ConfirmModUpload_Ctor {
         SoundDefOf.Tick_High.PlayOneShotOnCamera();
 
         var settings = ModevMod.Settings;
-        var uploadAction = () => {
-            SoundDefOf.Tick_High.PlayOneShotOnCamera();
-            UploadMethod.Invoke(null, [mod]);
-        };
 
         var interactionDelay = settings.SkipWorkshopConfirmDelay ? 0f : 6f;
 
-        Find.WindowStack.Add(new Dialog_UploadPreview("Modev_UploadPreview_Title".Translate(),
-            BuildUploadPreviewText(mod, settings),
-            "Yes".Translate(), uploadAction, "No".Translate(), null,
-            true, uploadAction, delegate { }, WindowLayer.Dialog, interactionDelay));
+        Find.WindowStack.Add(new Dialog_UploadPreview(BuildUploadPreviewText(mod, settings),
+            interactionDelay, () => {
+                SoundDefOf.Tick_High.PlayOneShotOnCamera();
+                UploadMethod.Invoke(null, [mod]);
+            }));
     }
 
     private static string BuildUploadPreviewText(ModMetaData mod, ModevSettings settings) {

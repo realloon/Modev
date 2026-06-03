@@ -18,13 +18,11 @@ public sealed class Dialog_UploadPreview : Dialog_MessageBox {
     private float TimeUntilInteractive => interactionDelay - (Time.realtimeSinceStartup - field);
     private bool InteractionDelayExpired => TimeUntilInteractive <= 0f;
 
-    public Dialog_UploadPreview(string title, string contentText, string buttonAText, Action? buttonAAction,
-        string? buttonBText, Action? buttonBAction, bool buttonADestructive, Action? acceptAction,
-        Action? cancelAction, WindowLayer layer, float interactionDelay)
-        : base(string.Empty, buttonAText, buttonAAction, buttonBText, buttonBAction, title, buttonADestructive,
-            acceptAction, cancelAction, layer) {
+    public Dialog_UploadPreview(string contentText, float delay, Action uploadAction)
+        : base(string.Empty, "Yes".Translate(), uploadAction, "No".Translate(), null,
+            "Modev_UploadPreview_Title".Translate(), true, uploadAction, delegate { }) {
         _contentText = contentText;
-        this.interactionDelay = interactionDelay;
+        interactionDelay = delay;
         TimeUntilInteractive = RealTime.LastRealTime;
     }
 
@@ -66,13 +64,11 @@ public sealed class Dialog_UploadPreview : Dialog_MessageBox {
     }
 
     private void DrawButtons(Rect inRect) {
-        var buttonCount = buttonCText.NullOrEmpty() ? 2 : 3;
+        const int buttonCount = 2;
         var buttonWidth = inRect.width / buttonCount;
         var actualButtonWidth = buttonWidth - 10f;
 
-        if (buttonADestructive) {
-            GUI.color = new Color(1f, 0.3f, 0.35f);
-        }
+        GUI.color = new Color(1f, 0.3f, 0.35f);
 
         var primaryLabel = InteractionDelayExpired
             ? buttonAText
@@ -86,19 +82,8 @@ public sealed class Dialog_UploadPreview : Dialog_MessageBox {
         }
 
         GUI.color = Color.white;
-        if (buttonBText != null &&
-            Widgets.ButtonText(new Rect(0f, inRect.height - 35f, actualButtonWidth, 35f), buttonBText)) {
+        if (Widgets.ButtonText(new Rect(0f, inRect.height - 35f, actualButtonWidth, 35f), buttonBText)) {
             buttonBAction?.Invoke();
-            Close();
-        }
-
-        if (buttonCText == null || !Widgets.ButtonText(
-                new Rect(buttonWidth, inRect.height - 35f, actualButtonWidth, 35f),
-                buttonCText)) return;
-
-        buttonCAction?.Invoke();
-
-        if (buttonCClose) {
             Close();
         }
     }
