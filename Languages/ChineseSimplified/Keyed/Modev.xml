@@ -3,6 +3,7 @@
   <Modev_ExcludeRules_Label>添加忽略项，以 / 结尾的视为文件夹</Modev_ExcludeRules_Label>
   <Modev_SkipDelay>跳过原创性确认等待</Modev_SkipDelay>
   <Modev_IgnoreDotPrefixedPaths>忽略所有以 . 开头的文件和文件夹</Modev_IgnoreDotPrefixedPaths>
+  <Modev_BundleDefs>上传时将所有 Def 合并为单一 XML 文件</Modev_BundleDefs>
   <Modev_ExcludeRules_ListLabel>已忽略项</Modev_ExcludeRules_ListLabel>
   <Modev_Add>添加</Modev_Add>
   <Modev_Remove>移除</Modev_Remove>

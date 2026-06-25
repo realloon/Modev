@@ -3,6 +3,7 @@
   <Modev_ExcludeRules_Label>Add ignore items, rules ending with / are treated as folders</Modev_ExcludeRules_Label>
   <Modev_SkipDelay>Skip originality confirmation wait</Modev_SkipDelay>
   <Modev_IgnoreDotPrefixedPaths>Ignore all files and folders with a . prefix</Modev_IgnoreDotPrefixedPaths>
+  <Modev_BundleDefs>Bundle all Defs into a single XML file when uploading</Modev_BundleDefs>
   <Modev_ExcludeRules_ListLabel>Ignored items</Modev_ExcludeRules_ListLabel>
   <Modev_Add>Add</Modev_Add>
   <Modev_Remove>Remove</Modev_Remove>

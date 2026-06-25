@@ -45,6 +45,19 @@ public sealed class ModevMod : Mod {
             WriteSettings();
         }
 
+        y += 32f;
+        var bundleDefs = Settings.BundleDefs;
+        var bundleDefsRect = new Rect(inRect.x, y, inRect.width, 30f);
+        if (Mouse.IsOver(bundleDefsRect)) {
+            Widgets.DrawHighlight(bundleDefsRect);
+        }
+
+        Widgets.CheckboxLabeled(bundleDefsRect, "Modev_BundleDefs".Translate(), ref bundleDefs);
+        if (bundleDefs != Settings.BundleDefs) {
+            Settings.BundleDefs = bundleDefs;
+            WriteSettings();
+        }
+
         y += 40f;
         Widgets.Label(new Rect(inRect.x, y, inRect.width, 28f), "Modev_ExcludeRules_Label".Translate());
         y += 34f;

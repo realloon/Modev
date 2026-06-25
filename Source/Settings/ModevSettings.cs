@@ -4,11 +4,13 @@ public sealed class ModevSettings : ModSettings {
     private List<string> _excludedRules = [];
     public bool SkipWorkshopConfirmDelay = true;
     public bool IgnoreDotPrefixedPaths;
+    public bool BundleDefs;
 
     public override void ExposeData() {
         Scribe_Collections.Look(ref _excludedRules, "excludedRules", LookMode.Value);
         Scribe_Values.Look(ref SkipWorkshopConfirmDelay, "skipWorkshopConfirmDelay", true);
         Scribe_Values.Look(ref IgnoreDotPrefixedPaths, "ignoreDotPrefixedPaths");
+        Scribe_Values.Look(ref BundleDefs, "bundleDefs");
 
         _excludedRules ??= [];
         CanonicalizeRulesInPlace(_excludedRules);

@@ -13,9 +13,14 @@ public static class Postfix_ModMetaData_GetWorkshopUploadDirectory {
         var settings = ModevMod.Settings;
         var excludedRules = settings.GetExcludedRules();
         var ignoreDotPrefixedPaths = settings.IgnoreDotPrefixedPaths;
+        var bundleDefs = settings.BundleDefs;
 
-        if (excludedRules.Count == 0 && !ignoreDotPrefixedPaths) return;
+        if (excludedRules.Count == 0 && !ignoreDotPrefixedPaths && !bundleDefs) return;
 
         __result = UploadContentFilter.BuildFilteredCopy(__result, excludedRules, ignoreDotPrefixedPaths);
+
+        if (bundleDefs) {
+            DefBundler.Bundle(__result);
+        }
     }
 }
