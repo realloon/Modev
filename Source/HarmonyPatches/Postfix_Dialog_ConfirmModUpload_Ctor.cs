@@ -1,10 +1,10 @@
-using System.Reflection;
 using JetBrains.Annotations;
+using System.Reflection;
 using HarmonyLib;
 using RimWorld;
-using Modev.Utility;
 using Verse.Sound;
 using Verse.Steam;
+using Modev.Utility;
 
 // ReSharper disable InconsistentNaming
 
@@ -33,7 +33,11 @@ public static class Postfix_Dialog_ConfirmModUpload_Ctor {
         Find.WindowStack.Add(new Dialog_UploadPreview(BuildUploadPreviewText(mod, settings),
             interactionDelay, () => {
                 SoundDefOf.Tick_High.PlayOneShotOnCamera();
+                #if DEBUG
+                DebugExport.ExportToDesktop(mod);
+                #else
                 UploadMethod.Invoke(null, [mod]);
+                #endif
             }));
     }
 
