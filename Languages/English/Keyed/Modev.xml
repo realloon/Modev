@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <Modev_ExcludeRules_Label>Add ignore items, rules ending with / are treated as folders</Modev_ExcludeRules_Label>
-  <Modev_ExcludeRules_AddButton>Add</Modev_ExcludeRules_AddButton>
-  <Modev_SkipDelay_Toggle>Skip originality confirmation wait</Modev_SkipDelay_Toggle>
-  <Modev_IgnoreDotPrefixedPaths_Toggle>Ignore all files and folders starting with .</Modev_IgnoreDotPrefixedPaths_Toggle>
+  <Modev_SkipDelay>Skip originality confirmation wait</Modev_SkipDelay>
+  <Modev_IgnoreDotPrefixedPaths>Ignore all files and folders with a . prefix</Modev_IgnoreDotPrefixedPaths>
   <Modev_ExcludeRules_ListLabel>Ignored items</Modev_ExcludeRules_ListLabel>
-  <Modev_ExcludeRules_RemoveButton>Remove</Modev_ExcludeRules_RemoveButton>
+  <Modev_Add>Add</Modev_Add>
+  <Modev_Remove>Remove</Modev_Remove>
   <Modev_ExcludeRules_Empty>No ignore items yet.</Modev_ExcludeRules_Empty>
   <Modev_UploadPreview_Title>Content to Upload to Workshop</Modev_UploadPreview_Title>
   <Modev_UploadPreview_Empty>Nothing will be uploaded after filtering.</Modev_UploadPreview_Empty>

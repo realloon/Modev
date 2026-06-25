@@ -25,7 +25,7 @@ public sealed class ModevMod : Mod {
             Widgets.DrawHighlight(skipDelayRect);
         }
 
-        Widgets.CheckboxLabeled(skipDelayRect, "Modev_SkipDelay_Toggle".Translate(), ref skipDelay);
+        Widgets.CheckboxLabeled(skipDelayRect, "Modev_SkipDelay".Translate(), ref skipDelay);
         if (skipDelay != Settings.SkipWorkshopConfirmDelay) {
             Settings.SkipWorkshopConfirmDelay = skipDelay;
             WriteSettings();
@@ -38,7 +38,7 @@ public sealed class ModevMod : Mod {
             Widgets.DrawHighlight(ignoreDotPrefixedPathsRect);
         }
 
-        Widgets.CheckboxLabeled(ignoreDotPrefixedPathsRect, "Modev_IgnoreDotPrefixedPaths_Toggle".Translate(),
+        Widgets.CheckboxLabeled(ignoreDotPrefixedPathsRect, "Modev_IgnoreDotPrefixedPaths".Translate(),
             ref ignoreDotPrefixedPaths);
         if (ignoreDotPrefixedPaths != Settings.IgnoreDotPrefixedPaths) {
             Settings.IgnoreDotPrefixedPaths = ignoreDotPrefixedPaths;
@@ -55,7 +55,7 @@ public sealed class ModevMod : Mod {
 
         var addButtonRect = new Rect(inRect.x + inRect.width - ActionButtonWidth - ActionRightPadding, y,
             ActionButtonWidth, 30f);
-        if (Widgets.ButtonText(addButtonRect, "Modev_ExcludeRules_AddButton".Translate())) {
+        if (Widgets.ButtonText(addButtonRect, "Modev_Add".Translate())) {
             TryAddPendingExcludedRule();
         }
 
@@ -95,7 +95,7 @@ public sealed class ModevMod : Mod {
             Widgets.Label(textRect, excludedRules[i]);
 
             var removeButtonRect = new Rect(rowRect.xMax - ActionButtonWidth, rowRect.y, ActionButtonWidth, 30f);
-            if (Widgets.ButtonText(removeButtonRect, "Modev_ExcludeRules_RemoveButton".Translate())) {
+            if (Widgets.ButtonText(removeButtonRect, "Modev_Remove".Translate())) {
                 removeIndex = i;
             }
         }
