@@ -2,9 +2,9 @@
 <ModMetaData>
   <packageId>Vortex.Modev</packageId>
   <name>Modev</name>
-  <description>Modev is a toolkit designed for RimWorld mod development.</description>
+  <description>Modev is a toolkit designed for mod development.\n\n&amp;lt;b&amp;gt;Features&amp;lt;/b&amp;gt;\n- Skip the upload confirmation wait.\n- Exclude files or folders from uploads.\n- Bundle all Defs into a single XML file on upload.</description>
   <author>Vortex</author>
-  <modVersion>1.4.0</modVersion>
+  <modVersion>1.5.0</modVersion>
   <supportedVersions>
     <li>1.6</li>
   </supportedVersions>
