@@ -45,6 +45,14 @@ public sealed class Dialog_UploadPreview : Dialog_MessageBox {
         GUI.Label(new Rect(0f, 0f, viewRect.width, viewRect.height), _contentText, bodyStyle);
         Widgets.EndScrollView();
 
+        #if DEBUG
+        y += viewRect.height + 8f;
+        GUI.color = Color.red;
+        Widgets.Label(new Rect(0f, y, inRect.width, 24f),
+            "Currently in DEBUG mode, output will be directed to the desktop.");
+        GUI.color = Color.white;
+        #endif
+
         DrawButtons(inRect);
     }
 
