@@ -6,7 +6,8 @@ namespace Modev;
 [UsedImplicitly]
 public sealed class ModevMod : Mod {
     public static ModevSettings Settings = null!;
-    private const float ActionButtonWidth = 150f;
+    private const float ActionButtonSize = 30f;
+    private const float ActionButtonGap = 8f;
     private const float ActionRightPadding = 16f;
     private string _pendingExcludedRule = string.Empty;
     private Vector2 _excludedRulesScrollPosition = Vector2.zero;
@@ -59,16 +60,20 @@ public sealed class ModevMod : Mod {
         }
 
         y += 40f;
-        Widgets.Label(new Rect(inRect.x, y, inRect.width, 28f), "Modev_ExcludeRules_Label".Translate());
-        y += 34f;
+        Widgets.DrawBoxSolid(new Rect(inRect.x, y, inRect.width, 1f), new Color(1f, 1f, 1f, 0.24f));
+        y += 16f;
 
-        var inputRect = new Rect(inRect.x, y, inRect.width - ActionButtonWidth - 8f - ActionRightPadding, 30f);
+        Widgets.Label(new Rect(inRect.x, y, inRect.width, 28f), "Modev_ExcludeRules_Label".Translate());
+        y += 32f;
+
+        var inputRect = new Rect(inRect.x, y, inRect.width - ActionButtonSize - ActionButtonGap - ActionRightPadding,
+            30f);
         GUI.SetNextControlName("Modev_ExcludedRuleInput");
         _pendingExcludedRule = Widgets.TextField(inputRect, _pendingExcludedRule);
 
-        var addButtonRect = new Rect(inRect.x + inRect.width - ActionButtonWidth - ActionRightPadding, y,
-            ActionButtonWidth, 30f);
-        if (Widgets.ButtonText(addButtonRect, "Modev_Add".Translate())) {
+        var addButtonRect = new Rect(inRect.x + inRect.width - ActionButtonSize - ActionRightPadding, y,
+            ActionButtonSize, ActionButtonSize);
+        if (Widgets.ButtonImage(addButtonRect, TexButton.Add)) {
             TryAddPendingExcludedRule();
         }
 
@@ -104,11 +109,15 @@ public sealed class ModevMod : Mod {
                 Widgets.DrawHighlight(rowRect);
             }
 
-            var textRect = new Rect(rowRect.x + 4f, rowRect.y + 4f, rowRect.width - ActionButtonWidth - 12f, 24f);
+            var textRect = new Rect(rowRect.x + 4f, rowRect.y + 4f,
+                rowRect.width - ActionButtonSize - ActionButtonGap - 4f, 24f);
             Widgets.Label(textRect, excludedRules[i]);
 
-            var removeButtonRect = new Rect(rowRect.xMax - ActionButtonWidth, rowRect.y, ActionButtonWidth, 30f);
-            if (Widgets.ButtonText(removeButtonRect, "Modev_Remove".Translate())) {
+            if (!Mouse.IsOver(rowRect)) continue;
+
+            var removeButtonRect = new Rect(rowRect.xMax - ActionButtonSize, rowRect.y, ActionButtonSize,
+                ActionButtonSize);
+            if (Widgets.ButtonImage(removeButtonRect, TexButton.Delete)) {
                 removeIndex = i;
             }
         }
