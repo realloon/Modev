@@ -18,7 +18,7 @@ public static class Postfix_Dialog_ConfirmModUpload_Ctor {
 
     [UsedImplicitly]
     public static void Postfix(Dialog_ConfirmModUpload __instance, ModMetaData mod) {
-        __instance.text = __instance.text + "\n\n" + ConfirmContentAuthorText;
+        __instance.text = __instance.text + "\n\n\n" + ConfirmContentAuthorText;
         __instance.buttonAAction = () => OpenUploadPreview(mod);
         __instance.acceptAction = __instance.buttonAAction;
     }
