@@ -5,8 +5,6 @@
   <Modev_IgnoreDotPrefixedPaths>Ignore all files and folders with a . prefix</Modev_IgnoreDotPrefixedPaths>
   <Modev_BundleDefs>Bundle all Defs into a single XML file when uploading</Modev_BundleDefs>
   <Modev_ExcludeRules_ListLabel>Ignored items</Modev_ExcludeRules_ListLabel>
-  <Modev_Add>Add</Modev_Add>
-  <Modev_Remove>Remove</Modev_Remove>
   <Modev_ExcludeRules_Empty>No ignore items yet.</Modev_ExcludeRules_Empty>
   <Modev_UploadPreview_Title>Content to Upload to Workshop</Modev_UploadPreview_Title>
   <Modev_UploadPreview_Empty>Nothing will be uploaded after filtering.</Modev_UploadPreview_Empty>

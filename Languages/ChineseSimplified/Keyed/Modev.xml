@@ -5,8 +5,6 @@
   <Modev_IgnoreDotPrefixedPaths>忽略所有以 . 开头的文件和文件夹</Modev_IgnoreDotPrefixedPaths>
   <Modev_BundleDefs>上传时将所有 Def 合并为单一 XML 文件</Modev_BundleDefs>
   <Modev_ExcludeRules_ListLabel>已忽略项</Modev_ExcludeRules_ListLabel>
-  <Modev_Add>添加</Modev_Add>
-  <Modev_Remove>移除</Modev_Remove>
   <Modev_ExcludeRules_Empty>尚未添加任何忽略项。</Modev_ExcludeRules_Empty>
   <Modev_UploadPreview_Title>将上传至创意工坊的内容</Modev_UploadPreview_Title>
   <Modev_UploadPreview_Empty>过滤后没有任何内容会被上传。</Modev_UploadPreview_Empty>
