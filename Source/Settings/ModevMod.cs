@@ -73,7 +73,8 @@ public sealed class ModevMod : Mod {
 
         var addButtonRect = new Rect(inRect.x + inRect.width - ActionButtonSize - ActionRightPadding, y,
             ActionButtonSize, ActionButtonSize);
-        if (Widgets.ButtonImage(addButtonRect, TexButton.Add)) {
+        var addButtonColor = _pendingExcludedRule.IsWhiteSpace() ? Color.gray : Color.white;
+        if (Widgets.ButtonImage(addButtonRect, TexButton.Add, addButtonColor)) {
             TryAddPendingExcludedRule();
         }
 
