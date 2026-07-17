@@ -11,7 +11,7 @@ public static class Postfix_ModMetaData_GetWorkshopUploadDirectory {
     [UsedImplicitly]
     public static void Postfix(ref DirectoryInfo __result) {
         var settings = ModevMod.Settings;
-        var excludedRules = settings.GetExcludedRules();
+        var excludedRules = settings.ExcludedRules;
         var ignoreDotPrefixedPaths = settings.IgnoreDotPrefixedPaths;
         var bundleDefs = settings.BundleDefs;
 

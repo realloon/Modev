@@ -43,7 +43,7 @@ public static class Postfix_Dialog_ConfirmModUpload_Ctor {
 
     private static string BuildUploadPreviewText(ModMetaData mod, ModevSettings settings) {
         var includedPaths = UploadContentFilter.ListIncludedTopLevelPaths(mod.RootDir,
-            settings.GetExcludedRules(), settings.IgnoreDotPrefixedPaths);
+            settings.ExcludedRules, settings.IgnoreDotPrefixedPaths);
 
         return includedPaths.Empty()
             ? "Modev_UploadPreview_Empty".Translate()

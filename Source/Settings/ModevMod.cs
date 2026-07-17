@@ -91,7 +91,7 @@ public sealed class ModevMod : Mod {
     }
 
     private void DrawExcludedRulesList(Rect listRect) {
-        var excludedRules = Settings.GetExcludedRules();
+        var excludedRules = Settings.ExcludedRules;
         var contentHeight = Mathf.Max(listRect.height, excludedRules.Count * 34f + 8f);
         var viewRect = new Rect(0f, 0f, listRect.width - 16f, contentHeight);
         Widgets.BeginScrollView(listRect, ref _excludedRulesScrollPosition, viewRect);

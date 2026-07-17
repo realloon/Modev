@@ -16,7 +16,7 @@ public sealed class ModevSettings : ModSettings {
         CanonicalizeRulesInPlace(_excludedRules);
     }
 
-    public List<string> GetExcludedRules() => [.._excludedRules];
+    internal IReadOnlyList<string> ExcludedRules => _excludedRules;
 
     private static bool IsFolderRule(string rule) => rule.EndsWith("/", StringComparison.Ordinal);
 
