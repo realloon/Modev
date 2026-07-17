@@ -19,7 +19,7 @@ public sealed class Dialog_UploadPreview : Dialog_MessageBox {
     private bool InteractionDelayExpired => TimeUntilInteractive <= 0f;
 
     public Dialog_UploadPreview(string contentText, float delay, Action uploadAction)
-        : base(string.Empty, "Yes".Translate(), uploadAction, "No".Translate(), null,
+        : base(string.Empty, "Confirm".Translate(), uploadAction, "Cancel".Translate(), null,
             "Modev_UploadPreview_Title".Translate(), true, uploadAction, delegate { }) {
         _contentText = contentText;
         interactionDelay = delay;
