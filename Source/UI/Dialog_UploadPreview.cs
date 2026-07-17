@@ -28,11 +28,9 @@ public sealed class Dialog_UploadPreview : Dialog_MessageBox {
 
     public override void DoWindowContents(Rect inRect) {
         var y = inRect.y;
-        if (!title.NullOrEmpty()) {
-            Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(0f, y, inRect.width, 42f), title);
-            y += 42f;
-        }
+        Text.Font = GameFont.Medium;
+        Widgets.Label(new Rect(0f, y, inRect.width, 42f), title);
+        y += 42f;
 
         Text.Font = GameFont.Small;
         var bodyRect = new Rect(inRect.x, y, inRect.width, inRect.height - 35f - 5f - y);
