@@ -83,7 +83,7 @@ public sealed class Dialog_UploadPreview : Dialog_MessageBox {
         if (Widgets.ButtonText(
                 new Rect(buttonWidth + 10f, inRect.height - 35f, actualButtonWidth, 35f),
                 primaryLabel) && InteractionDelayExpired) {
-            buttonAAction?.Invoke();
+            buttonAAction();
             Close();
         }
 

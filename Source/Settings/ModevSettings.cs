@@ -22,7 +22,7 @@ public sealed class ModevSettings : ModSettings {
 
     public bool TryAddExcludedRule(string rawInput) {
         var normalizedRule = NormalizeRule(rawInput);
-        if (normalizedRule is not { Length: > 0 }) {
+        if (normalizedRule is null) {
             return false;
         }
 
@@ -44,7 +44,7 @@ public sealed class ModevSettings : ModSettings {
 
         for (var i = rules.Count - 1; i >= 0; i--) {
             var normalized = NormalizeRule(rules[i]);
-            if (normalized is not { Length: > 0 } || !seen.Add(normalized)) {
+            if (normalized is null || !seen.Add(normalized)) {
                 rules.RemoveAt(i);
                 continue;
             }

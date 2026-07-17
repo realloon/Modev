@@ -51,7 +51,7 @@ public static class UploadContentFilter {
 
         foreach (var filePath in Directory.GetFiles(sourcePath)) {
             var fileName = Path.GetFileName(filePath);
-            var relativeFilePath = string.IsNullOrEmpty(relativePath)
+            var relativeFilePath = relativePath.Length == 0
                 ? fileName
                 : relativePath + "/" + fileName;
             if (ShouldSkip(fileName, relativeFilePath, false, excludedRules, ignoreDotPrefixedPaths)) {
@@ -64,7 +64,7 @@ public static class UploadContentFilter {
 
         foreach (var directoryPath in Directory.GetDirectories(sourcePath)) {
             var folderName = Path.GetFileName(directoryPath);
-            var childRelativePath = string.IsNullOrEmpty(relativePath)
+            var childRelativePath = relativePath.Length == 0
                 ? folderName
                 : relativePath + "/" + folderName;
 
