@@ -94,7 +94,7 @@ public static class UploadContentFilter {
         }
 
         var folder = rule[..^1];
-        return candidate.Equals(folder, StringComparison.OrdinalIgnoreCase) ||
-               candidate.StartsWith(folder + "/", StringComparison.OrdinalIgnoreCase);
+        return (isFolder && candidate.Equals(folder, StringComparison.OrdinalIgnoreCase)) ||
+               candidate.StartsWith(rule, StringComparison.OrdinalIgnoreCase);
     }
 }
