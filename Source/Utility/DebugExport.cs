@@ -1,5 +1,4 @@
 #if DEBUG
-
 namespace Modev.Utility;
 
 public static class DebugExport {
@@ -14,11 +13,11 @@ public static class DebugExport {
     private static void CopyDirectory(string sourcePath, string targetPath) {
         Directory.CreateDirectory(targetPath);
 
-        foreach (var filePath in Directory.GetFiles(sourcePath)) {
+        foreach (var filePath in Directory.EnumerateFiles(sourcePath)) {
             File.Copy(filePath, Path.Combine(targetPath, Path.GetFileName(filePath)), true);
         }
 
-        foreach (var directoryPath in Directory.GetDirectories(sourcePath)) {
+        foreach (var directoryPath in Directory.EnumerateDirectories(sourcePath)) {
             CopyDirectory(directoryPath, Path.Combine(targetPath, Path.GetFileName(directoryPath)));
         }
     }

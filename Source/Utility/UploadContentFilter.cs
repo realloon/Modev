@@ -16,7 +16,7 @@ public static class UploadContentFilter {
         IReadOnlyCollection<string> excludedRules, bool ignoreDotPrefixedPaths) {
         var paths = new List<string>();
 
-        foreach (var directoryPath in Directory.GetDirectories(source.FullName)
+        foreach (var directoryPath in Directory.EnumerateDirectories(source.FullName)
                      .OrderBy(Path.GetFileName, StringComparer.OrdinalIgnoreCase)) {
             var folderName = Path.GetFileName(directoryPath);
             if (ShouldSkip(folderName, folderName, true, excludedRules, ignoreDotPrefixedPaths)) {
@@ -26,7 +26,7 @@ public static class UploadContentFilter {
             paths.Add(folderName + "/");
         }
 
-        foreach (var filePath in Directory.GetFiles(source.FullName)
+        foreach (var filePath in Directory.EnumerateFiles(source.FullName)
                      .OrderBy(Path.GetFileName, StringComparer.OrdinalIgnoreCase)) {
             var fileName = Path.GetFileName(filePath);
             if (ShouldSkip(fileName, fileName, false, excludedRules, ignoreDotPrefixedPaths)) {
@@ -40,7 +40,7 @@ public static class UploadContentFilter {
     }
 
     private static void CleanupAllPreviousDirectories(string rootPath) {
-        foreach (var dir in new DirectoryInfo(rootPath).GetDirectories()) {
+        foreach (var dir in new DirectoryInfo(rootPath).EnumerateDirectories()) {
             dir.Delete(true);
         }
     }
@@ -49,7 +49,7 @@ public static class UploadContentFilter {
         IReadOnlyCollection<string> excludedRules, bool ignoreDotPrefixedPaths) {
         Directory.CreateDirectory(targetPath);
 
-        foreach (var filePath in Directory.GetFiles(sourcePath)) {
+        foreach (var filePath in Directory.EnumerateFiles(sourcePath)) {
             var fileName = Path.GetFileName(filePath);
             var relativeFilePath = relativePath.Length == 0
                 ? fileName
@@ -62,7 +62,7 @@ public static class UploadContentFilter {
             File.Copy(filePath, targetFile, true);
         }
 
-        foreach (var directoryPath in Directory.GetDirectories(sourcePath)) {
+        foreach (var directoryPath in Directory.EnumerateDirectories(sourcePath)) {
             var folderName = Path.GetFileName(directoryPath);
             var childRelativePath = relativePath.Length == 0
                 ? folderName
@@ -84,8 +84,7 @@ public static class UploadContentFilter {
     }
 
     private static bool IsExcluded(string relativePath, bool isFolder, IReadOnlyCollection<string> excludedRules) {
-        var candidate = relativePath.Replace('\\', '/');
-        return excludedRules.Any(rule => IsRuleMatch(candidate, isFolder, rule));
+        return excludedRules.Any(rule => IsRuleMatch(relativePath, isFolder, rule));
     }
 
     private static bool IsRuleMatch(string candidate, bool isFolder, string rule) {

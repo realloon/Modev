@@ -10,7 +10,7 @@ public static class DefBundler {
         var combined = new XElement("Defs");
         var merged = new List<FileInfo>();
 
-        foreach (var file in defsDir.GetFiles("*.xml", SearchOption.AllDirectories)
+        foreach (var file in defsDir.EnumerateFiles("*.xml", SearchOption.AllDirectories)
                      .OrderBy(f => f.FullName, StringComparer.OrdinalIgnoreCase)) {
             var root = XDocument.Load(file.FullName).Root
                        ?? throw new InvalidDataException($"XML has no root element: {file.FullName}");
@@ -34,9 +34,9 @@ public static class DefBundler {
     }
 
     private static void RemoveEmptyDirectories(DirectoryInfo dir) {
-        foreach (var child in dir.GetDirectories()) {
+        foreach (var child in dir.EnumerateDirectories()) {
             RemoveEmptyDirectories(child);
-            if (child.GetFileSystemInfos().Length == 0) {
+            if (!child.EnumerateFileSystemInfos().Any()) {
                 child.Delete();
             }
         }
