@@ -12,16 +12,12 @@ public static class DefBundler {
 
         foreach (var file in defsDir.GetFiles("*.xml", SearchOption.AllDirectories)
                      .OrderBy(f => f.FullName, StringComparer.OrdinalIgnoreCase)) {
-            XDocument doc;
-            try {
-                doc = XDocument.Load(file.FullName);
-            } catch {
-                continue; // leave malformed files untouched
-            }
+            var root = XDocument.Load(file.FullName).Root
+                       ?? throw new InvalidDataException($"XML has no root element: {file.FullName}");
 
-            if (doc.Root?.Name.LocalName != "Defs") continue; // not a Defs file; leave as-is
+            if (root.Name.LocalName != "Defs") continue; // not a Defs file; leave as-is
 
-            combined.Add(doc.Root.Elements());
+            combined.Add(root.Elements());
             merged.Add(file);
         }
 
