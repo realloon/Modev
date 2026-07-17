@@ -6,7 +6,8 @@ namespace Modev;
 public sealed class Dialog_UploadPreview : Dialog_MessageBox {
     private static readonly string[] MonospaceFontNames = [
         "Menlo",
-        "Consolas"
+        "Consolas",
+        "DejaVu Sans Mono"
     ];
 
     private static Font? _monospaceFont;
