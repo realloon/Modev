@@ -14,10 +14,15 @@ public static class Postfix_ModMetaData_GetWorkshopUploadDirectory {
         var excludedRules = settings.ExcludedRules;
         var ignoreDotPrefixedPaths = settings.IgnoreDotPrefixedPaths;
         var bundleDefs = settings.BundleDefs;
+        var stripXmlComments = settings.StripXmlComments;
 
-        if (excludedRules.Count == 0 && !ignoreDotPrefixedPaths && !bundleDefs) return;
+        if (excludedRules.Count == 0 && !ignoreDotPrefixedPaths && !bundleDefs && !stripXmlComments) return;
 
         __result = UploadContentFilter.BuildFilteredCopy(__result, excludedRules, ignoreDotPrefixedPaths);
+
+        if (stripXmlComments) {
+            XmlCommentStripper.StripDirectory(__result);
+        }
 
         if (bundleDefs) {
             DefBundler.Bundle(__result);

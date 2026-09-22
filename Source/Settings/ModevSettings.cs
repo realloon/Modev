@@ -5,12 +5,14 @@ public sealed class ModevSettings : ModSettings {
     public bool SkipWorkshopConfirmDelay = true;
     public bool IgnoreDotPrefixedPaths;
     public bool BundleDefs;
+    public bool StripXmlComments;
 
     public override void ExposeData() {
         Scribe_Collections.Look(ref _excludedRules, "excludedRules", LookMode.Value);
         Scribe_Values.Look(ref SkipWorkshopConfirmDelay, "skipWorkshopConfirmDelay", true);
         Scribe_Values.Look(ref IgnoreDotPrefixedPaths, "ignoreDotPrefixedPaths");
         Scribe_Values.Look(ref BundleDefs, "bundleDefs");
+        Scribe_Values.Look(ref StripXmlComments, "stripXmlComments");
 
         _excludedRules ??= [];
         CanonicalizeRulesInPlace(_excludedRules);

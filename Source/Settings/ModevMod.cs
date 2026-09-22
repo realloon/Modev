@@ -23,6 +23,7 @@ public sealed class ModevMod : Mod {
         DrawSettingCheckbox(inRect, ref y, "Modev_SkipDelay", ref Settings.SkipWorkshopConfirmDelay);
         DrawSettingCheckbox(inRect, ref y, "Modev_IgnoreDotPrefixedPaths", ref Settings.IgnoreDotPrefixedPaths);
         DrawSettingCheckbox(inRect, ref y, "Modev_BundleDefs", ref Settings.BundleDefs);
+        DrawSettingCheckbox(inRect, ref y, "Modev_StripXmlComments", ref Settings.StripXmlComments);
 
         y += 8f;
         Widgets.DrawBoxSolid(new Rect(inRect.x, y, inRect.width, 1f), new Color(1f, 1f, 1f, 0.24f));
