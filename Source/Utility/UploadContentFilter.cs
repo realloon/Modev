@@ -5,7 +5,6 @@ public static class UploadContentFilter {
         bool ignoreDotPrefixedPaths) {
         var root = Path.Combine(GenFilePaths.TempFolderPath, "Vortex_Modev");
         Directory.CreateDirectory(root);
-        CleanupAllPreviousDirectories(root);
 
         var targetPath = Path.Combine(root, source.Name + "_" + DateTime.UtcNow.ToString("yyyyMMddHHmmssfff"));
         CopyDirectory(source.FullName, targetPath, string.Empty, excludedRules, ignoreDotPrefixedPaths);
@@ -14,35 +13,14 @@ public static class UploadContentFilter {
 
     public static List<string> ListIncludedTopLevelPaths(DirectoryInfo source,
         IReadOnlyCollection<string> excludedRules, bool ignoreDotPrefixedPaths) {
-        var paths = new List<string>();
-
-        foreach (var directoryPath in Directory.EnumerateDirectories(source.FullName)
-                     .OrderBy(Path.GetFileName, StringComparer.OrdinalIgnoreCase)) {
-            var folderName = Path.GetFileName(directoryPath);
-            if (ShouldSkip(folderName, folderName, true, excludedRules, ignoreDotPrefixedPaths)) {
-                continue;
-            }
-
-            paths.Add(folderName + "/");
-        }
-
-        foreach (var filePath in Directory.EnumerateFiles(source.FullName)
-                     .OrderBy(Path.GetFileName, StringComparer.OrdinalIgnoreCase)) {
-            var fileName = Path.GetFileName(filePath);
-            if (ShouldSkip(fileName, fileName, false, excludedRules, ignoreDotPrefixedPaths)) {
-                continue;
-            }
-
-            paths.Add(fileName);
-        }
-
-        return paths;
-    }
-
-    private static void CleanupAllPreviousDirectories(string rootPath) {
-        foreach (var dir in new DirectoryInfo(rootPath).EnumerateDirectories()) {
-            dir.Delete(true);
-        }
+        return [
+            .. source.EnumerateFileSystemInfos()
+                .Where(entry => !ShouldSkip(entry.Name, entry.Name, entry is DirectoryInfo,
+                    excludedRules, ignoreDotPrefixedPaths))
+                .OrderBy(entry => entry is DirectoryInfo ? 0 : 1)
+                .ThenBy(entry => entry.Name, StringComparer.OrdinalIgnoreCase)
+                .Select(entry => entry is DirectoryInfo ? entry.Name + "/" : entry.Name)
+        ];
     }
 
     private static void CopyDirectory(string sourcePath, string targetPath, string relativePath,
@@ -68,9 +46,7 @@ public static class UploadContentFilter {
                 ? folderName
                 : relativePath + "/" + folderName;
 
-            if (ShouldSkip(folderName, childRelativePath, true, excludedRules, ignoreDotPrefixedPaths)) {
-                continue;
-            }
+            if (ShouldSkip(folderName, childRelativePath, true, excludedRules, ignoreDotPrefixedPaths)) continue;
 
             var targetChild = Path.Combine(targetPath, folderName);
             CopyDirectory(directoryPath, targetChild, childRelativePath, excludedRules, ignoreDotPrefixedPaths);
