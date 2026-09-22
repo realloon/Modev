@@ -23,6 +23,10 @@ public static class UploadContentFilter {
         ];
     }
 
+    public static void CopyDirectory(string sourcePath, string targetPath) {
+        CopyDirectory(sourcePath, targetPath, string.Empty, [], false);
+    }
+
     private static void CopyDirectory(string sourcePath, string targetPath, string relativePath,
         IReadOnlyCollection<string> excludedRules, bool ignoreDotPrefixedPaths) {
         Directory.CreateDirectory(targetPath);

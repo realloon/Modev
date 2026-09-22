@@ -20,46 +20,11 @@ public sealed class ModevMod : Mod {
 
     public override void DoSettingsWindowContents(Rect inRect) {
         var y = inRect.y;
-        var skipDelay = Settings.SkipWorkshopConfirmDelay;
-        var skipDelayRect = new Rect(inRect.x, y, inRect.width, 30f);
-        if (Mouse.IsOver(skipDelayRect)) {
-            Widgets.DrawHighlight(skipDelayRect);
-        }
+        DrawSettingCheckbox(inRect, ref y, "Modev_SkipDelay", ref Settings.SkipWorkshopConfirmDelay);
+        DrawSettingCheckbox(inRect, ref y, "Modev_IgnoreDotPrefixedPaths", ref Settings.IgnoreDotPrefixedPaths);
+        DrawSettingCheckbox(inRect, ref y, "Modev_BundleDefs", ref Settings.BundleDefs);
 
-        Widgets.CheckboxLabeled(skipDelayRect, "Modev_SkipDelay".Translate(), ref skipDelay);
-        if (skipDelay != Settings.SkipWorkshopConfirmDelay) {
-            Settings.SkipWorkshopConfirmDelay = skipDelay;
-            WriteSettings();
-        }
-
-        y += 32f;
-        var ignoreDotPrefixedPaths = Settings.IgnoreDotPrefixedPaths;
-        var ignoreDotPrefixedPathsRect = new Rect(inRect.x, y, inRect.width, 30f);
-        if (Mouse.IsOver(ignoreDotPrefixedPathsRect)) {
-            Widgets.DrawHighlight(ignoreDotPrefixedPathsRect);
-        }
-
-        Widgets.CheckboxLabeled(ignoreDotPrefixedPathsRect, "Modev_IgnoreDotPrefixedPaths".Translate(),
-            ref ignoreDotPrefixedPaths);
-        if (ignoreDotPrefixedPaths != Settings.IgnoreDotPrefixedPaths) {
-            Settings.IgnoreDotPrefixedPaths = ignoreDotPrefixedPaths;
-            WriteSettings();
-        }
-
-        y += 32f;
-        var bundleDefs = Settings.BundleDefs;
-        var bundleDefsRect = new Rect(inRect.x, y, inRect.width, 30f);
-        if (Mouse.IsOver(bundleDefsRect)) {
-            Widgets.DrawHighlight(bundleDefsRect);
-        }
-
-        Widgets.CheckboxLabeled(bundleDefsRect, "Modev_BundleDefs".Translate(), ref bundleDefs);
-        if (bundleDefs != Settings.BundleDefs) {
-            Settings.BundleDefs = bundleDefs;
-            WriteSettings();
-        }
-
-        y += 40f;
+        y += 8f;
         Widgets.DrawBoxSolid(new Rect(inRect.x, y, inRect.width, 1f), new Color(1f, 1f, 1f, 0.24f));
         y += 16f;
 
@@ -88,6 +53,21 @@ public sealed class ModevMod : Mod {
         y += 40f;
         var rulesListRect = new Rect(inRect.x, y, inRect.width, inRect.yMax - y);
         DrawExcludedRulesList(rulesListRect);
+    }
+
+    private void DrawSettingCheckbox(Rect inRect, ref float y, string labelKey, ref bool value) {
+        var rect = new Rect(inRect.x, y, inRect.width, 30f);
+        if (Mouse.IsOver(rect)) {
+            Widgets.DrawHighlight(rect);
+        }
+
+        var previous = value;
+        Widgets.CheckboxLabeled(rect, labelKey.Translate(), ref value);
+        if (value != previous) {
+            WriteSettings();
+        }
+
+        y += 32f;
     }
 
     private void DrawExcludedRulesList(Rect listRect) {
