@@ -14,9 +14,9 @@ namespace Modev.HarmonyPatches;
 [HarmonyPatch(MethodType.Constructor, typeof(ModMetaData), typeof(Action))]
 public static class Postfix_Dialog_ConfirmModUpload_Ctor {
     private static readonly string ConfirmContentAuthorText = "ConfirmContentAuthor".Translate();
-#if !DEBUG
+    #if !DEBUG
     private static readonly MethodInfo UploadMethod = AccessTools.Method(typeof(Workshop), "Upload")!;
-#endif
+    #endif
 
     [UsedImplicitly]
     public static void Postfix(Dialog_ConfirmModUpload __instance, ModMetaData mod) {
