@@ -15,9 +15,9 @@ public static class DefBundler {
             var root = XDocument.Load(file.FullName).Root
                        ?? throw new InvalidDataException($"XML has no root element: {file.FullName}");
 
-            if (root.Name.LocalName != "Defs") continue; // not a Defs file; leave as-is
+            if (root.Name.LocalName != "Defs") continue;
 
-            combined.Add(root.Elements());
+            combined.Add(root.Nodes());
             merged.Add(file);
         }
 

@@ -20,12 +20,12 @@ public static class Postfix_ModMetaData_GetWorkshopUploadDirectory {
 
         __result = UploadContentFilter.BuildFilteredCopy(__result, excludedRules, ignoreDotPrefixedPaths);
 
-        if (stripXmlComments) {
-            XmlCommentStripper.StripDirectory(__result);
-        }
-
         if (bundleDefs) {
             DefBundler.Bundle(__result);
+        }
+
+        if (stripXmlComments) {
+            XmlCommentStripper.StripDirectory(__result);
         }
     }
 }
