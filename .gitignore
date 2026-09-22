@@ -1,14 +1,10 @@
 .DS_Store/
 
-*.DotSettings
-*.DotSettings.user
-
+# C#
+Source/obj/
 **/.idea/workspace.xml
 **/.idea/projectSettingsUpdater.xml
-
-# C#
-Source/bin/
-Source/obj/
+*.DotSettings*
 
 # Build
 Assemblies/
