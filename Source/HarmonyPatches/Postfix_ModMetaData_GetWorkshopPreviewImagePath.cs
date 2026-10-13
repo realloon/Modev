@@ -9,7 +9,8 @@ namespace Modev.HarmonyPatches;
 public static class Postfix_ModMetaData_GetWorkshopPreviewImagePath {
     [UsedImplicitly]
     public static void Postfix(ModMetaData __instance, ref string __result) {
-        var webpPath = Path.Combine(__instance.RootDir.FullName, "About", "Preview.webp");
+        var aboutDir = Path.Combine(__instance.RootDir.FullName, "About");
+        var webpPath = GenFile.ResolveCaseInsensitiveFilePath(aboutDir, "Preview.webp");
         if (File.Exists(webpPath)) {
             __result = webpPath;
         }
