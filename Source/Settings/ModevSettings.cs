@@ -20,7 +20,10 @@ public sealed class ModevSettings : ModSettings {
 
     internal IReadOnlyList<string> ExcludedRules => _excludedRules;
 
-    private static bool IsFolderRule(string rule) => rule.EndsWith("/", StringComparison.Ordinal);
+    internal bool HasContentTransforms =>
+        _excludedRules.Count > 0 || IgnoreDotPrefixedPaths || BundleDefs || StripXmlComments;
+
+    private static bool IsFolderRule(string rule) => rule.EndsWith('/');
 
     public bool TryAddExcludedRule(string rawInput) {
         var normalizedRule = NormalizeRule(rawInput);
@@ -69,7 +72,7 @@ public sealed class ModevSettings : ModSettings {
     }
 
     private static string? NormalizeRule(string value) {
-        var isFolderRule = value.TrimEnd().EndsWith("/", StringComparison.Ordinal);
+        var isFolderRule = value.TrimEnd().EndsWith('/');
         var path = value.Trim().Replace('\\', '/').Trim('/');
 
         if (path.Length == 0) return null;

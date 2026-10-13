@@ -15,7 +15,7 @@ namespace Modev.HarmonyPatches;
 public static class Postfix_Dialog_ConfirmModUpload_Ctor {
     private static readonly string ConfirmContentAuthorText = "ConfirmContentAuthor".Translate();
     #if !DEBUG
-    private static readonly MethodInfo UploadMethod = AccessTools.Method(typeof(Workshop), "Upload")!;
+    private static readonly MethodInfo UploadMethod = AccessTools.Method(typeof(Workshop), "BakeAndUpload")!;
     #endif
 
     [UsedImplicitly]
@@ -35,6 +35,8 @@ public static class Postfix_Dialog_ConfirmModUpload_Ctor {
         Find.WindowStack.Add(new Dialog_UploadPreview(BuildUploadPreviewText(mod, settings),
             interactionDelay, () => {
                 SoundDefOf.Tick_High.PlayOneShotOnCamera();
+
+                if (!UploadStaging.Prepare(mod)) return;
                 #if DEBUG
                 DebugExport.ExportToDesktop(mod);
                 #else

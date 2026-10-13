@@ -59,16 +59,24 @@ public static class UploadContentFilter {
 
     private static bool ShouldSkip(string name, string relativePath, bool isFolder,
         IReadOnlyCollection<string> excludedRules, bool ignoreDotPrefixedPaths) {
-        return (ignoreDotPrefixedPaths && name.StartsWith(".", StringComparison.Ordinal)) ||
+        if (!isFolder && IsAssetPackArtifact(name)) {
+            return true;
+        }
+
+        return (ignoreDotPrefixedPaths && name.StartsWith('.')) ||
                IsExcluded(relativePath, isFolder, excludedRules);
     }
+
+    private static bool IsAssetPackArtifact(string fileName) =>
+        fileName.Equals("Assets.zip", StringComparison.OrdinalIgnoreCase) ||
+        fileName.StartsWith("Assets.zip.", StringComparison.OrdinalIgnoreCase);
 
     private static bool IsExcluded(string relativePath, bool isFolder, IReadOnlyCollection<string> excludedRules) {
         return excludedRules.Any(rule => IsRuleMatch(relativePath, isFolder, rule));
     }
 
     private static bool IsRuleMatch(string candidate, bool isFolder, string rule) {
-        if (!rule.EndsWith("/", StringComparison.Ordinal)) {
+        if (!rule.EndsWith('/')) {
             return !isFolder && candidate.Equals(rule, StringComparison.OrdinalIgnoreCase);
         }
 
