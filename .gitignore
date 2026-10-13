@@ -7,4 +7,4 @@ Source/obj/
 *.DotSettings*
 
 # Build
-Assemblies/
+1.7/Assemblies/Modev.dll
