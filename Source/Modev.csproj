@@ -16,13 +16,9 @@
         <GenerateDependencyFile>false</GenerateDependencyFile>
     </PropertyGroup>
 
-    <PropertyGroup>
-        <RimWorld17Dir>$(HOME)/Library/Application Support/Steam/steamapps/common/RimWorld/RimWorld.app/Contents/MacOS</RimWorld17Dir>
-    </PropertyGroup>
-
     <ItemGroup>
+        <PackageReference Include="Vortex.Rimworld.Ref" Version="1.7.4977" />
         <PackageReference Include="Lib.Harmony.Ref" Version="3.0.0-rc.2" />
-        <Reference Include="$(RimWorld17Dir)/*.dll" Private="false" Exclude="$(RimWorld17Dir)/System.*.dll;$(RimWorld17Dir)/Microsoft.*.dll;$(RimWorld17Dir)/netstandard.dll;$(RimWorld17Dir)/mscorlib.dll" />
     </ItemGroup>
 
     <ItemGroup>
