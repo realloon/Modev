@@ -5,12 +5,13 @@ namespace Modev;
 
 [UsedImplicitly]
 public sealed class ModevMod : Mod {
-    public static ModevSettings Settings = null!;
     private const float ActionButtonSize = 30f;
     private const float ActionButtonGap = 8f;
     private const float ActionRightPadding = 16f;
     private string _pendingExcludedRule = string.Empty;
     private Vector2 _excludedRulesScrollPosition = Vector2.zero;
+
+    public static ModevSettings Settings { get; private set; } = null!;
 
     public ModevMod(ModContentPack content) : base(content) {
         Settings = GetSettings<ModevSettings>();
