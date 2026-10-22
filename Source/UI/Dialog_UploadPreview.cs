@@ -4,19 +4,13 @@ namespace Modev;
 
 // ReSharper disable once InconsistentNaming
 public sealed class Dialog_UploadPreview : Dialog_MessageBox {
-    private static readonly string[] MonospaceFontNames = [
-        "Menlo",
-        "Consolas",
-        "DejaVu Sans Mono"
-    ];
-
-    private static Font? _monospaceFont;
     private readonly string _contentText;
     private Vector2 _scrollPosition = Vector2.zero;
 
     public override Vector2 InitialSize => new(560f, 400f);
 
     private float TimeUntilInteractive => interactionDelay - (Time.realtimeSinceStartup - field);
+
     private bool InteractionDelayExpired => TimeUntilInteractive <= 0f;
 
     public Dialog_UploadPreview(string contentText, float delay, Action uploadAction)
@@ -36,12 +30,10 @@ public sealed class Dialog_UploadPreview : Dialog_MessageBox {
         Text.Font = GameFont.Small;
         var bodyRect = new Rect(inRect.x, y, inRect.width, inRect.height - 35f - 5f - y);
         var bodyWidth = bodyRect.width - 16f;
-        var bodyStyle = CreateBodyStyle();
-        var contentHeight = bodyStyle.CalcHeight(new GUIContent(_contentText), bodyWidth);
-        var viewRect = new Rect(0f, 0f, bodyWidth, contentHeight);
+        var viewRect = new Rect(0f, 0f, bodyWidth, Text.CalcHeight(_contentText, bodyWidth));
 
         Widgets.BeginScrollView(bodyRect, ref _scrollPosition, viewRect);
-        GUI.Label(new Rect(0f, 0f, viewRect.width, viewRect.height), _contentText, bodyStyle);
+        Widgets.Label(new Rect(0f, 0f, viewRect.width, viewRect.height), _contentText);
         Widgets.EndScrollView();
 
         #if DEBUG
@@ -59,16 +51,6 @@ public sealed class Dialog_UploadPreview : Dialog_MessageBox {
         if (!InteractionDelayExpired) return;
 
         base.OnAcceptKeyPressed();
-    }
-
-    private static GUIStyle CreateBodyStyle() {
-        _monospaceFont ??= Font.CreateDynamicFontFromOSFont(MonospaceFontNames, 14);
-        return new GUIStyle(Text.CurFontStyle) {
-            font = _monospaceFont ?? Text.CurFontStyle.font,
-            fontSize = 14,
-            alignment = TextAnchor.UpperLeft,
-            wordWrap = true
-        };
     }
 
     private void DrawButtons(Rect inRect) {
